@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
-public class VideoController {
+public class Video {
 
     private final int fps = 30;
     private boolean started = false;
@@ -16,12 +16,12 @@ public class VideoController {
     private LinkedBlockingQueue<Frame> frames = new LinkedBlockingQueue<>(1000);
 
 
-    public VideoController() {
+    public Video(String videoName) {
         new Thread(() -> {
             for (int i = 1; i <= 9000; i++)
             {
                 try {
-                    frames.put(new Frame("AIFilmTwo", i));
+                    frames.put(new Frame(videoName, i));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

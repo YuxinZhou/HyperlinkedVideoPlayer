@@ -7,17 +7,17 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 
-public class SoundController {
+public class Sound {
     private Clip clip;
     private int frame = 0;
 
-    public void loadSound(String filename) {
+    public void loadSound(String soundName) {
         // specify the sound to play
         // (assuming the sound can be played by the audio system)
         // from a wave File
         FileInputStream waveStream;
         try {
-            waveStream = new FileInputStream(filename);
+            waveStream = new FileInputStream(soundName);
             InputStream bufferedIn = new BufferedInputStream(waveStream);
             AudioInputStream sound =  AudioSystem.getAudioInputStream(bufferedIn);
             // load the sound into memory (a Clip)
