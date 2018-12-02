@@ -1,2 +1,5 @@
 # video data folder
 data/
+
+# compiled files
+out/git

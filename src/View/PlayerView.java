@@ -8,8 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 public class PlayerView implements ActionListener {
@@ -21,63 +19,38 @@ public class PlayerView implements ActionListener {
     private JPanel controlPane;
     private JButton playButton = new JButton(">");
     private JButton stopButton = new JButton("||");
-    private BufferedImage img1;
-    private BufferedImage img2;
-    private Video video1;
-    private Sound sound1;
+    private BufferedImage img;
+    private Video video;
+    private Sound sound;
 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        BufferedImage frame = video1.getNextFrame();
+        BufferedImage frame = video.getNextFrame();
         if (frame != null) {
-            imageUtil.copyImage(frame, img1);
+            imageUtil.copyImage(frame, img);
             jFrame.repaint();
         }
     }
 
     public PlayerView() {
-        img1 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         jFrame = new JFrame();
         controlPane = new JPanel();
-        video1 = new Video("AIFilmTwo");
-        sound1 = new Sound();
+        video = new Video("AIFilmTwo");
+        sound = new Sound();
 
         stopButton.setEnabled(false);
 
-        imageUtil.copyImage(video1.getNextFrame(), img1);
-        JLabel lbIm1 = new JLabel(new ImageIcon(img1));
+        imageUtil.copyImage(video.getNextFrame(), img);
+        JLabel lbIm1 = new JLabel(new ImageIcon(img));
 
-        sound1.loadSound("data/AIFilmTwo/AIFilmTwo.wav");
+        sound.loadSound("data/AIFilmTwo/AIFilmTwo.wav");
 
         // Define buttons' function
-        playButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent event) {
-                stopButton.setEnabled(true);
-                playButton.setEnabled(false);
-                try {
-                    sound1.resume();
-                    video1.resume();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        playButton.addActionListener(new PlayButtonListener());
 
-        stopButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent event) {
-                stopButton.setEnabled(false);
-                playButton.setEnabled(true);
-                try {
-                    sound1.pause();
-                    video1.pause();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        stopButton.addActionListener(new StopButtonListener());
 
         // Add buttons to control panel
         controlPane.add(playButton);
@@ -105,6 +78,32 @@ public class PlayerView implements ActionListener {
 
         jFrame.pack();
         jFrame.setVisible(true);
+    }
+
+    private class PlayButtonListener implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            stopButton.setEnabled(true);
+            playButton.setEnabled(false);
+            try {
+                sound.resume();
+                video.resume();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    private class StopButtonListener implements ActionListener{
+        public void actionPerformed(ActionEvent e){
+            stopButton.setEnabled(false);
+            playButton.setEnabled(true);
+            try {
+                sound.pause();
+                video.pause();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+        }
     }
 
     public static void main(String[] args) {
