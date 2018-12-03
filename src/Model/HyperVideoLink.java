@@ -1,5 +1,6 @@
 package Model;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
@@ -24,6 +25,18 @@ public class HyperVideoLink {
         _selectedPixels = selectedPixels;
         _subVideoName = subVideoName;
         _subVideoFrameNumber = subVideoFrameNumber;
+    }
+
+    public HyperVideoLink(JSONObject jo) {
+        _name = (String) jo.get(nameKey);
+        _frameNumber = ((Long) jo.get(frameNumberKey)).intValue();
+        _selectedPixels = new ArrayList<>();
+        JSONArray selectedPixels = (JSONArray) jo.get(selectedPixelsKey);
+        for(int i = 0; i < selectedPixels.size(); i++) {
+            _selectedPixels.add(((Long) selectedPixels.get(i)).intValue());
+        }
+        _subVideoName = (String) jo.get(subVideoNameKey);
+        _subVideoFrameNumber = ((Long) jo.get(subVideoFrameNumberKey)).intValue();
     }
 
     public String get_name() {

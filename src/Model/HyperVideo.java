@@ -17,9 +17,7 @@ public class HyperVideo {
     private Set<String> _subVideoNames = new HashSet<>();
     private HashMap<Integer, ArrayList<HyperVideoLink>> _linksPerFrame = new HashMap<>();
     private HashMap<String, ArrayList<HyperVideoLink>> _linksPerName = new HashMap<>();
-    static private final String subVideoNamesKey = "SubVideoNames";
-    static private final String linksPerFrameKey = "LinksPerFrame";
-    static private final String linksPerNameKey = "LinksPerName";
+    static private final String linksKey = "Links";
 
     /**
      * _videoName getter
@@ -48,6 +46,17 @@ public class HyperVideo {
     public HyperVideo(String videoName, String mainVideoName) {
         _videoName = videoName;
         _mainVideoName = mainVideoName;
+    }
+
+    public HyperVideo(JSONObject jo) {
+        _videoName = (String) jo.get(videoNameKey);
+        _mainVideoName = (String) jo.get(mainVideoNameKey);
+
+        JSONArray links = (JSONArray) jo.get(linksKey);
+        for(int i = 0; i < links.size(); i++) {
+            HyperVideoLink tmp_link = new HyperVideoLink((JSONObject) links.get(i));
+            this.addHyperLink(tmp_link.get_name(), tmp_link.get_frameNumber(), tmp_link.get_selectedPixels(), tmp_link.get_subVideoName(), tmp_link.get_subVideoFrameNumber());
+        }
     }
 
     /**
@@ -128,30 +137,13 @@ public class HyperVideo {
         jo.put(videoNameKey, _videoName);
         jo.put(mainVideoNameKey, _mainVideoName);
 
-        JSONArray linksJA1 = new JSONArray();
-        _subVideoNames.forEach((name) -> linksJA1.add(name));
-
-        jo.put(subVideoNamesKey, linksJA1);
-
-        JSONObject linksJoFrame = new JSONObject();
+        JSONArray linksJA = new JSONArray();
         _linksPerFrame.forEach((frame_num, links) -> {
-            JSONArray linksJA = new JSONArray();
             links.forEach((link) -> {
                 linksJA.add(link.returnJSON());
             });
-            linksJoFrame.put(frame_num, linksJA);
         });
-        jo.put(linksPerFrameKey, linksJoFrame);
-
-        JSONObject linksJoName = new JSONObject();
-        _linksPerName.forEach((name, links) -> {
-            JSONArray linksJA = new JSONArray();
-            links.forEach((link) -> {
-                linksJA.add(link.returnJSON());
-            });
-            linksJoName.put(name, linksJA);
-        });
-        jo.put(linksPerNameKey, linksJoName);
+        jo.put(linksKey, linksJA);
 
         return jo;
     }
