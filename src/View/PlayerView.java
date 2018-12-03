@@ -2,7 +2,7 @@ package View;
 
 import Model.Sound;
 import Model.Video;
-import Model.imageUtil;
+import Util.imageUtil;
 
 import javax.swing.*;
 import java.awt.*;

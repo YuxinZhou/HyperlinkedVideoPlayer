@@ -2,6 +2,7 @@ package View;
 
 import Model.*;
 import Model.Frame;
+import Util.*;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -9,6 +10,8 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 public class AuthView {
@@ -16,8 +19,9 @@ public class AuthView {
     private static final int height = 288;
     private BufferedImage img1 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     private BufferedImage img2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-    private String primaryVideo = null;
-    private String secondaryVideo = null;
+    private String primaryVideo;
+    private HyperVideo hyperVideo;
+    private String secondaryVideo;
     private JList jList;
     private Vector<String> links = new Vector<>();
     private JScrollPane jScrollPane;
@@ -26,6 +30,7 @@ public class AuthView {
     private JSlider jSlider2;
     private JLabel lbIm1;
     private JLabel lbIm2;
+    private String linkSelected;
     private Rectangle curObj;
 
 
@@ -56,6 +61,7 @@ public class AuthView {
 
         JButton saveButton = new JButton("Save File");
         JButton connectButton = new JButton("Connect Video");
+        connectButton.addActionListener(new ConnectFileListener());
 
 
         // Left Video
@@ -166,9 +172,11 @@ public class AuthView {
                         imageUtil.copyImage(frame.getImg(), img1);
                         jSlider.setValue(0);
                         primaryVideo = path;
-                        // todo:Update links
-                        links.add("a");
-                        links.add("b");
+                        hyperVideo = new HyperVideo("", primaryVideo);
+                        links.clear();
+                        for (String l : hyperVideo.getAllLinkNames()) {
+                            links.add(l);
+                        }
                         jList.setListData(links);
                         break;
                     case SECONDARY:
@@ -215,7 +223,11 @@ public class AuthView {
             if (newLink == null || newLink.equals("")) {
                 return;
             }
-            // todo: can not have same name!
+            // Can not have same name!
+            while (links.contains(newLink)) {
+                JOptionPane.showMessageDialog(null, "Name already exists.", "Error!", JOptionPane.ERROR_MESSAGE);
+                newLink = JOptionPane.showInputDialog("Please enter the link name", newLink);
+            }
             links.add(newLink);
             jList.setListData(links);
         }
@@ -224,13 +236,14 @@ public class AuthView {
     private class JListListener extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
+            JList myList = (JList) e.getSource();
+            int index = myList.getSelectedIndex();
+            if (index == -1) { // empty list
+                return;
+            }
+            Object obj = myList.getModel().getElementAt(index);
+
             if (e.getClickCount() == 2) { // double clicked -> edit link
-                JList myList = (JList) e.getSource();
-                int index = myList.getSelectedIndex();
-                if (index == -1) { // empty list
-                    return;
-                }
-                Object obj = myList.getModel().getElementAt(index);
                 String newLink = JOptionPane.showInputDialog("Please enter the link name", obj.toString());
                 if (newLink == null) { // canceled
                     return;
@@ -244,12 +257,30 @@ public class AuthView {
             }
 
             if (e.getClickCount() == 1) {
+                System.out.println(linkSelected + " is selected");
+                linkSelected = obj.toString();
                 //Todo: go to corresponding frame
-
             }
         }
     }
 
+    private class ConnectFileListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            if (primaryVideo == null || linkSelected == null) {
+                JOptionPane.showMessageDialog(null, "Please select a link from list", "Error!", JOptionPane.ERROR_MESSAGE);
+            } else if (curObj == null) {
+                JOptionPane.showMessageDialog(null, "Please select an object", "Error!", JOptionPane.ERROR_MESSAGE);
+            } else if (secondaryVideo == null) {
+                JOptionPane.showMessageDialog(null, "Please choose secondary video", "Error!", JOptionPane.ERROR_MESSAGE);
+            } else {
+                hyperVideo.addHyperLink(linkSelected, jSlider.getValue(),
+                        viewUtil.rectToArray(curObj), secondaryVideo, jSlider2.getValue());
+                JOptionPane.showMessageDialog(null, "New hyperlink (" + linkSelected + ") created!");
+                System.out.println(hyperVideo.returnJSON());
+            }
+        }
+    }
 
     private class JFrameListner extends MouseAdapter {
         private Point start;
@@ -290,16 +321,10 @@ public class AuthView {
             Rectangle bound = new Rectangle(x0, y0, width, height);
             if (primaryVideo != null && start != null && bound.contains(e.getPoint())) {
                 end = e.getPoint();
-                System.out.println(start);
-                System.out.println(end);
-                Point topLeft = new Point(Math.min(start.x, end.x) - x0, Math.min(start.y, end.y) - y0);
-                Point bottomRight = new Point(Math.max(start.x, end.x) - x0, Math.max(start.y, end.y) - y0);
-                curObj = new Rectangle(topLeft.x, topLeft.y,
-                        bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
+                curObj = viewUtil.createRect(start, end, new Point(x0, y0));
                 start = null;
                 end = null;
                 System.out.println(curObj);
-                //img1 = new Frame(primaryVideo, jSlider.getValue()).getImg();
                 imageUtil.drawRectangle(img1, curObj);
                 jFrame.repaint();
             }
