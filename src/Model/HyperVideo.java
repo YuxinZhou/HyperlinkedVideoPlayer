@@ -11,14 +11,15 @@ import java.util.Set;
 public class HyperVideo {
     private String _videoName;
     private String _mainVideoName;
-
-    private Set<String> _subVideoNames = new HashSet<String>();
-    private HashMap<Integer, ArrayList<HyperVideoLink>> _linksPerFrame = new HashMap<Integer, ArrayList<HyperVideoLink>>();
-
     static private final String videoNameKey = "VideoName";
     static private final String mainVideoNameKey = "MainVideoName";
+
+    private Set<String> _subVideoNames = new HashSet<>();
+    private HashMap<Integer, ArrayList<HyperVideoLink>> _linksPerFrame = new HashMap<>();
+    private HashMap<String, ArrayList<HyperVideoLink>> _linksPerName = new HashMap<>();
     static private final String subVideoNamesKey = "SubVideoNames";
     static private final String linksPerFrameKey = "LinksPerFrame";
+    static private final String linksPerNameKey = "LinksPerName";
 
     /**
      * _videoName getter
@@ -52,46 +53,74 @@ public class HyperVideo {
     /**
      * add a hyper link
      *
+     * @param name a name that associates links in different frames
      * @param frameNumber the index of a frame
      * @param selectedPixels a set of selected pixel indexes
      * @param subVideoName sub video to play when certain pixels are clicked
      * @param subVideoFrameNumber sub video frame to start play with
      */
-    public void addHyperLink(int frameNumber, Set<Integer> selectedPixels, String subVideoName, int subVideoFrameNumber) {
-        // check links existence in map
+    public void addHyperLink(String name, int frameNumber, ArrayList<Integer> selectedPixels, String subVideoName, int subVideoFrameNumber) {
+        HyperVideoLink tmp_link = new HyperVideoLink(name, frameNumber, selectedPixels, subVideoName, subVideoFrameNumber);
+
+        // update in links per frame
         if( !_linksPerFrame.containsKey(frameNumber)) {
-            _linksPerFrame.put(frameNumber, new ArrayList<HyperVideoLink>());
+            _linksPerFrame.put(frameNumber, new ArrayList<>());
         }
         // get all links at this frame
-        ArrayList<HyperVideoLink> links = _linksPerFrame.get(frameNumber);
+        ArrayList<HyperVideoLink> frameLinks = _linksPerFrame.get(frameNumber);
         // add a new link
-        links.add(new HyperVideoLink(frameNumber, selectedPixels, subVideoName, subVideoFrameNumber));
+        frameLinks.add(tmp_link);
+
+        // update in links per name
+        if(!_linksPerName.containsKey(name)) {
+            _linksPerName.put(name, new ArrayList<>());
+        }
+        // get all links of this name
+        ArrayList<HyperVideoLink> nameLinks = _linksPerName.get(name);
+        // add a new link
+        nameLinks.add(tmp_link);
+
+        // update sub videos set
         _subVideoNames.add(subVideoName);
     }
 
     /**
+     * get all link names
      *
-     * @param frameNumber the index of a frame
-     * @return a map that maps a pixel to its hyper link index
+     * @return all link names in an array list
      */
-    public HashMap<Integer, Integer> getPixelLinkIndexMap(int frameNumber) {
-        // initiate the map to return
-        HashMap<Integer, Integer> pixelLinkIndexMap = new HashMap<Integer, Integer>();
-        // check links map existence
-        if( !_linksPerFrame.containsKey(frameNumber)) {
-            _linksPerFrame.put(frameNumber, new ArrayList<HyperVideoLink>());
-        }
-        // get all links at this frame
-        ArrayList<HyperVideoLink> links = _linksPerFrame.get(frameNumber);
-        // link each pixel with its link index at this frame
-        for(int i = 0; i < links.size(); i++) {
-            HyperVideoLink link = links.get(i);
-            Set<Integer> selectedPixels = link.get_selectedPixels();
-            for (int pixelNumber: selectedPixels) {
-                pixelLinkIndexMap.put(pixelNumber, i);
-            }
-        }
-        return pixelLinkIndexMap;
+    public ArrayList<String> getAllLinkNames() {
+        ArrayList<String> linkNames = new ArrayList<>();
+        _linksPerName.forEach((name, links) -> {
+            linkNames.add(name);
+        });
+        return linkNames;
+    }
+
+    /**
+     * get all links by a link name
+     *
+     * @param name name of the link
+     * @return all links of the given name
+     */
+    public ArrayList<HyperVideoLink> getLinksByName(String name) {
+        if(_linksPerName.containsKey(name))
+            return _linksPerName.get(name);
+        else
+            return new ArrayList<>();
+    }
+
+    /**
+     * get all links by frame number
+     *
+     * @param frameNum frame number
+     * @return all links of at the given frame
+     */
+    public ArrayList<HyperVideoLink> getLinksByFrame(int frameNum) {
+        if(_linksPerFrame.containsKey(frameNum))
+            return _linksPerFrame.get(frameNum);
+        else
+            return new ArrayList<>();
     }
 
     public JSONObject returnJSON() {
@@ -104,15 +133,26 @@ public class HyperVideo {
 
         jo.put(subVideoNamesKey, linksJA1);
 
-        JSONObject linksJo = new JSONObject();
+        JSONObject linksJoFrame = new JSONObject();
         _linksPerFrame.forEach((frame_num, links) -> {
             JSONArray linksJA = new JSONArray();
             links.forEach((link) -> {
                 linksJA.add(link.returnJSON());
             });
-            linksJo.put(frame_num, linksJA);
+            linksJoFrame.put(frame_num, linksJA);
         });
-        jo.put(linksPerFrameKey, linksJo);
+        jo.put(linksPerFrameKey, linksJoFrame);
+
+        JSONObject linksJoName = new JSONObject();
+        _linksPerName.forEach((name, links) -> {
+            JSONArray linksJA = new JSONArray();
+            links.forEach((link) -> {
+                linksJA.add(link.returnJSON());
+            });
+            linksJoName.put(name, linksJA);
+        });
+        jo.put(linksPerNameKey, linksJoName);
+
         return jo;
     }
 }
