@@ -4,13 +4,10 @@ import Model.*;
 import Model.Frame;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.Vector;
 
@@ -27,6 +24,9 @@ public class AuthView {
     private JFrame jFrame;
     private JSlider jSlider;
     private JSlider jSlider2;
+    private JLabel lbIm1;
+    private JLabel lbIm2;
+    private Rectangle curObj;
 
 
     private enum VideoType {
@@ -42,6 +42,7 @@ public class AuthView {
         JButton newButton = new JButton("Create Mew Hyperlink");
         importButton.addActionListener(new ImportButtonListener(VideoType.PRIMARY));
         importButton2.addActionListener(new ImportButtonListener(VideoType.SECONDARY));
+        newButton.addActionListener(new NewLinkListener());
 
         // Hyper Link List
         JLabel label2 = new JLabel("Links");
@@ -58,14 +59,14 @@ public class AuthView {
 
 
         // Left Video
-        JLabel lbIm1 = new JLabel(new ImageIcon(img1));
+        lbIm1 = new JLabel(new ImageIcon(img1));
         lbIm1.setPreferredSize(new java.awt.Dimension(width + 20, height + 20));
         jSlider = new JSlider(1, 9000, 1);
         jSlider.setPaintTicks(true);
         jSlider.addChangeListener(new SlideListener(VideoType.PRIMARY));
 
         // Right Video
-        JLabel lbIm2 = new JLabel(new ImageIcon(img2));
+        lbIm2 = new JLabel(new ImageIcon(img2));
         lbIm2.setPreferredSize(new java.awt.Dimension(width + 20, height + 20));
         jSlider2 = new JSlider(1, 9000, 1);
         jSlider2.setPaintTicks(true);
@@ -74,6 +75,9 @@ public class AuthView {
         jFrame = new JFrame();
         GridBagLayout gLayout = new GridBagLayout();
         jFrame.getContentPane().setLayout(gLayout);
+        jFrame.addMouseMotionListener(new JFrameListner());
+        jFrame.addMouseListener(new JFrameListner());
+
 
         // Layout
         GridBagConstraints c = new GridBagConstraints();
@@ -162,7 +166,7 @@ public class AuthView {
                         imageUtil.copyImage(frame.getImg(), img1);
                         jSlider.setValue(0);
                         primaryVideo = path;
-                        // Update links
+                        // todo:Update links
                         links.add("a");
                         links.add("b");
                         jList.setListData(links);
@@ -207,7 +211,11 @@ public class AuthView {
     private class NewLinkListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            String newLink = JOptionPane.showInputDialog("Please enter link name");
+            String newLink = JOptionPane.showInputDialog("Please enter the link name");
+            if (newLink == null || newLink.equals("")) {
+                return;
+            }
+            // todo: can not have same name!
             links.add(newLink);
             jList.setListData(links);
         }
@@ -216,14 +224,85 @@ public class AuthView {
     private class JListListener extends MouseAdapter {
         @Override
         public void mouseClicked(MouseEvent e) {
-
-            if (e.getClickCount() == 2) { // double clicked
+            if (e.getClickCount() == 2) { // double clicked -> edit link
                 JList myList = (JList) e.getSource();
                 int index = myList.getSelectedIndex();
+                if (index == -1) { // empty list
+                    return;
+                }
                 Object obj = myList.getModel().getElementAt(index);
-                System.out.println(obj.toString());
+                String newLink = JOptionPane.showInputDialog("Please enter the link name", obj.toString());
+                if (newLink == null) { // canceled
+                    return;
+                } else if (newLink.equals("")) { // deleted
+                    links.remove(index);
+                } else { // updated
+                    links.remove(index);
+                    links.add(index, newLink);
+                }
+                jList.setListData(links);
             }
 
+            if (e.getClickCount() == 1) {
+                //Todo: go to corresponding frame
+
+            }
+        }
+    }
+
+
+    private class JFrameListner extends MouseAdapter {
+        private Point start;
+        private Point end;
+
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            Rectangle bound = new Rectangle(lbIm1.getBounds().x + 10, lbIm1.getBounds().y + 10, width, height);
+            int x = MouseInfo.getPointerInfo().getLocation().x - jFrame.getLocation().x;
+            int y = MouseInfo.getPointerInfo().getLocation().y - jFrame.getLocation().x;
+            Point p = new Point(x, y);
+
+            if (primaryVideo != null && bound.contains(p)) {
+                jFrame.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+
+            } else {
+                jFrame.setCursor(new Cursor(Cursor.MOVE_CURSOR));
+            }
+        }
+
+        @Override
+        public void mousePressed(MouseEvent e) {
+            Rectangle bound = new Rectangle(lbIm1.getBounds().x + 10, lbIm1.getBounds().y + 10, width, height);
+            if (primaryVideo != null && bound.contains(e.getPoint())) {  // Draw start
+                start = e.getPoint();
+                Frame frame = new Frame(primaryVideo, jSlider.getValue());
+                imageUtil.copyImage(frame.getImg(), img1);
+                jFrame.repaint();
+            }
+
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            int x0 = lbIm1.getBounds().x + 10;
+            int y0 = lbIm1.getBounds().y + 10;
+            Rectangle bound = new Rectangle(x0, y0, width, height);
+            if (primaryVideo != null && start != null && bound.contains(e.getPoint())) {
+                end = e.getPoint();
+                System.out.println(start);
+                System.out.println(end);
+                Point topLeft = new Point(Math.min(start.x, end.x) - x0, Math.min(start.y, end.y) - y0);
+                Point bottomRight = new Point(Math.max(start.x, end.x) - x0, Math.max(start.y, end.y) - y0);
+                curObj = new Rectangle(topLeft.x, topLeft.y,
+                        bottomRight.x - topLeft.x, bottomRight.y - topLeft.y);
+                start = null;
+                end = null;
+                System.out.println(curObj);
+                //img1 = new Frame(primaryVideo, jSlider.getValue()).getImg();
+                imageUtil.drawRectangle(img1, curObj);
+                jFrame.repaint();
+            }
         }
     }
 
@@ -231,5 +310,6 @@ public class AuthView {
         AuthView view = new AuthView();
 
     }
+
 
 }

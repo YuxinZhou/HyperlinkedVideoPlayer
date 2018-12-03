@@ -1,5 +1,7 @@
 package Model;
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.nio.Buffer;
 
 public class imageUtil {
 
@@ -15,5 +17,21 @@ public class imageUtil {
                 to.setRGB(x, y, pix);
             }
         }
+    }
+
+    public static void drawRectangle(BufferedImage img, Rectangle rect) {
+        int x1 = rect.x;
+        int x2 = rect.x + rect.width;
+        int y1 = rect.y;
+        int y2 = rect.y + rect.height;
+        for (int i = x1; i < x2; i ++) {
+            img.setRGB(i, y1, 0);
+            img.setRGB(i, y2, 0);
+        }
+        for (int j = y1; j < y2; j ++) {
+            img.setRGB(x1, j, 0);
+            img.setRGB(x2, j, 0);
+        }
+
     }
 }
