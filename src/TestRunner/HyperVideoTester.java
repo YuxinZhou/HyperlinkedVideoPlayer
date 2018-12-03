@@ -1,8 +1,12 @@
 package TestRunner;
 
 import Model.HyperVideo;
+import Model.HyperVideoLink;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -10,7 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class HyperVideoTester {
-    public HyperVideoTester() throws IOException {
+    public HyperVideoTester() throws IOException, ParseException {
         HyperVideo h_video = new HyperVideo("new video", "USCOne");
 
         ArrayList<Integer> tmp_set1 = new ArrayList<Integer>();
@@ -45,11 +49,20 @@ public class HyperVideoTester {
         pw.flush();
         pw.close();
 
-        System.out.println(h_video.getAllLinkNames());
-        System.out.println(h_video.getLinksByName("link1"));
-        System.out.println(h_video.getLinksByFrame(0));
+        JSONParser parser = new JSONParser();
+        JSONObject importJO = (JSONObject) parser.parse(new FileReader("JSONExample.json"));
+
+        HyperVideo h2_video = new HyperVideo(importJO);
+        h2_video.addHyperLink("link1", 100, tmp_set3, "lalala", 50);
+        JSONObject exportJO = h2_video.returnJSON();
+
+        PrintWriter pw2 = new PrintWriter("JSONExample2.json");
+        pw2.write(exportJO.toJSONString());
+
+        pw2.flush();
+        pw2.close();
     }
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, ParseException {
         HyperVideoTester tester = new HyperVideoTester();
     }
 }
