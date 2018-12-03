@@ -2,24 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="450bf0bb-d3de-4047-aedf-8bfe2499b34a" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/Util/viewUtil.java" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/Model/imageUtil.class" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$1.class" afterPath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$1.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$ImportButtonListener.class" afterPath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$ImportButtonListener.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$JListListener.class" afterPath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$JListListener.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$NewLinkListener.class" afterPath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$NewLinkListener.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$SlideListener.class" afterPath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$SlideListener.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$VideoType.class" afterPath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView$VideoType.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView.class" afterPath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/AuthView.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/PlayerView$1.class" afterPath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/PlayerView$1.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/PlayerView$PlayButtonListener.class" afterPath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/PlayerView$PlayButtonListener.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/PlayerView$StopButtonListener.class" afterPath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/PlayerView$StopButtonListener.class" />
-      <change beforePath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/PlayerView.class" afterPath="$PROJECT_DIR$/out/production/HyperlinkedVideoPlayer/View/PlayerView.class" />
-      <change beforePath="$PROJECT_DIR$/src/Model/imageUtil.java" afterPath="$PROJECT_DIR$/src/Util/imageUtil.java" />
+      <change beforePath="$PROJECT_DIR$/src/Model/Frame.java" afterPath="$PROJECT_DIR$/src/Model/Frame.java" />
+      <change beforePath="$PROJECT_DIR$/src/Util/imageUtil.java" afterPath="$PROJECT_DIR$/src/Util/imageUtil.java" />
+      <change beforePath="$PROJECT_DIR$/src/Util/viewUtil.java" afterPath="$PROJECT_DIR$/src/Util/viewUtil.java" />
       <change beforePath="$PROJECT_DIR$/src/View/AuthView.java" afterPath="$PROJECT_DIR$/src/View/AuthView.java" />
-      <change beforePath="$PROJECT_DIR$/src/View/PlayerView.java" afterPath="$PROJECT_DIR$/src/View/PlayerView.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -31,17 +17,17 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="Frame.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Frame.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Model/Frame.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-522">
-              <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
+            <state relative-caret-position="162">
+              <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="2" selection-end-line="70" selection-end-column="11" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1963#1964#0" expanded="true" />
-                <element signature="e#1988#1989#0" expanded="true" />
-                <element signature="e#2025#2026#0" expanded="true" />
-                <element signature="e#2051#2052#0" expanded="true" />
+                <element signature="e#2295#2296#0" expanded="true" />
+                <element signature="e#2320#2321#0" expanded="true" />
+                <element signature="e#2357#2358#0" expanded="true" />
+                <element signature="e#2383#2384#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -50,8 +36,8 @@
       <file leaf-file-name="HyperVideo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Model/HyperVideo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="11" column="29" lean-forward="false" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="29" />
+            <state relative-caret-position="-318">
+              <caret line="109" column="37" lean-forward="true" selection-start-line="109" selection-start-column="37" selection-end-line="109" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -89,16 +75,17 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AuthView.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AuthView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/View/AuthView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4582">
-              <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="13" selection-end-column="24" />
+            <state relative-caret-position="2348">
+              <caret line="337" column="69" lean-forward="true" selection-start-line="337" selection-start-column="69" selection-end-line="337" selection-end-column="69" />
               <folding>
-                <element signature="e#4802#4803#0" expanded="true" />
-                <element signature="e#4852#4853#0" expanded="true" />
-                <element signature="e#6473#6474#0" expanded="true" />
-                <element signature="e#6523#6524#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#5293#5294#0" expanded="true" />
+                <element signature="e#5343#5344#0" expanded="true" />
+                <element signature="e#6964#6965#0" expanded="true" />
+                <element signature="e#7014#7015#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -127,8 +114,8 @@
       <file leaf-file-name="imageUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Util/imageUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="5" lean-forward="true" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="72" />
+            <state relative-caret-position="454">
+              <caret line="36" column="35" lean-forward="false" selection-start-line="36" selection-start-column="35" selection-end-line="36" selection-end-column="35" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -139,8 +126,8 @@
       <file leaf-file-name="viewUtil.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Util/viewUtil.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+            <state relative-caret-position="195">
+              <caret line="13" column="51" lean-forward="true" selection-start-line="13" selection-start-column="51" selection-end-line="13" selection-end-column="51" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -171,6 +158,7 @@
       <find>inpu</find>
       <find>add</find>
       <find>hyper</find>
+      <find>err</find>
     </findStrings>
     <dirStrings>
       <dir>$PROJECT_DIR$</dir>
@@ -200,7 +188,6 @@
         <option value="$PROJECT_DIR$/src/Controller/SoundController.java" />
         <option value="$PROJECT_DIR$/src/Controller/VideoController.java" />
         <option value="$PROJECT_DIR$/src/Model/SoundController.java" />
-        <option value="$PROJECT_DIR$/src/Model/Frame.java" />
         <option value="$PROJECT_DIR$/src/Model/VideoController.java" />
         <option value="$PROJECT_DIR$/src/Model/Video.java" />
         <option value="$PROJECT_DIR$/src/Model/Sound.java" />
@@ -209,10 +196,11 @@
         <option value="$PROJECT_DIR$/src/Model/JlistDemo3.java" />
         <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/Model/imageUtil.java" />
-        <option value="$PROJECT_DIR$/src/Util/imageUtil.java" />
         <option value="$PROJECT_DIR$/src/Util/dataUtil.java" />
-        <option value="$PROJECT_DIR$/src/Util/viewUtil.java" />
+        <option value="$PROJECT_DIR$/src/Util/imageUtil.java" />
         <option value="$PROJECT_DIR$/src/View/AuthView.java" />
+        <option value="$PROJECT_DIR$/src/Util/viewUtil.java" />
+        <option value="$PROJECT_DIR$/src/Model/Frame.java" />
       </list>
     </option>
   </component>
@@ -265,6 +253,12 @@
               <item name="HyperlinkedVideoPlayer" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="Model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="HyperlinkedVideoPlayer" type="b2602c69:ProjectViewProjectNode" />
+              <item name="HyperlinkedVideoPlayer" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="TestRunner" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="HyperlinkedVideoPlayer" type="b2602c69:ProjectViewProjectNode" />
@@ -453,12 +447,12 @@
       <workItem from="1542603867743" duration="168000" />
       <workItem from="1542606089600" duration="55012000" />
       <workItem from="1543801118732" duration="12822000" />
-      <workItem from="1543823748722" duration="9347000" />
+      <workItem from="1543823748722" duration="12686000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="104547000" />
+    <option name="totallyTimeSpent" value="107886000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1280" height="800" extended-state="0" />
@@ -472,12 +466,12 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30949107" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.23796424" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.56946355" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6464924" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.031502422" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21243942" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -540,7 +534,7 @@
         <state relative-caret-position="30">
           <caret line="2" column="0" lean-forward="false" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
             <marker date="1543616973198" expanded="true" signature="1880:1887" ph="{...}" />
           </folding>
         </state>
@@ -755,7 +749,7 @@
         <state relative-caret-position="930">
           <caret line="65" column="9" lean-forward="false" selection-start-line="65" selection-start-column="9" selection-end-line="65" selection-end-column="9" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
             <marker date="1543616973198" expanded="true" signature="1880:1887" ph="{...}" />
           </folding>
         </state>
@@ -799,28 +793,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/Frame.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-522">
-          <caret line="10" column="18" lean-forward="false" selection-start-line="10" selection-start-column="18" selection-end-line="10" selection-end-column="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#1963#1964#0" expanded="true" />
-            <element signature="e#1988#1989#0" expanded="true" />
-            <element signature="e#2025#2026#0" expanded="true" />
-            <element signature="e#2051#2052#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Model/HyperVideo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="11" column="29" lean-forward="false" selection-start-line="11" selection-start-column="19" selection-end-line="11" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Model/PlayWaveException.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -837,23 +809,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Util/viewUtil.java">
+    <entry file="file://$PROJECT_DIR$/src/Model/HyperVideo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Util/imageUtil.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="5" lean-forward="true" selection-start-line="6" selection-start-column="4" selection-end-line="6" selection-end-column="72" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="-318">
+          <caret line="109" column="37" lean-forward="true" selection-start-line="109" selection-start-column="37" selection-end-line="109" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -867,15 +827,50 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Util/imageUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="454">
+          <caret line="36" column="35" lean-forward="false" selection-start-line="36" selection-start-column="35" selection-end-line="36" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Util/viewUtil.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="51" lean-forward="true" selection-start-line="13" selection-start-column="51" selection-end-line="13" selection-end-column="51" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/View/AuthView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4582">
-          <caret line="12" column="0" lean-forward="false" selection-start-line="12" selection-start-column="0" selection-end-line="13" selection-end-column="24" />
+        <state relative-caret-position="2348">
+          <caret line="337" column="69" lean-forward="true" selection-start-line="337" selection-start-column="69" selection-end-line="337" selection-end-column="69" />
           <folding>
-            <element signature="e#4802#4803#0" expanded="true" />
-            <element signature="e#4852#4853#0" expanded="true" />
-            <element signature="e#6473#6474#0" expanded="true" />
-            <element signature="e#6523#6524#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#5293#5294#0" expanded="true" />
+            <element signature="e#5343#5344#0" expanded="true" />
+            <element signature="e#6964#6965#0" expanded="true" />
+            <element signature="e#7014#7015#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Model/Frame.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="65" column="0" lean-forward="false" selection-start-line="65" selection-start-column="2" selection-end-line="70" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2295#2296#0" expanded="true" />
+            <element signature="e#2320#2321#0" expanded="true" />
+            <element signature="e#2357#2358#0" expanded="true" />
+            <element signature="e#2383#2384#0" expanded="true" />
           </folding>
         </state>
       </provider>

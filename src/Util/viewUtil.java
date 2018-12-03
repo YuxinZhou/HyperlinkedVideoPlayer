@@ -10,6 +10,10 @@ public class viewUtil {
         return new ArrayList<>(Arrays.asList(rect.x, rect.y, rect.x + rect.width, rect.y + rect.height));
     }
 
+    public static Rectangle arrayToRect(ArrayList<Integer> array){
+        return new Rectangle(array.get(0), array.get(1), array.get(2)-array.get(0), array.get(3)-array.get(1));
+    }
+
     // create a rectangle using start drawing & end drawing point
     public static Rectangle createRect(Point start, Point end, Point origin) {
         int x0 = origin.x;

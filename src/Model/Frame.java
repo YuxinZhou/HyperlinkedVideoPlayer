@@ -1,6 +1,8 @@
 package Model;
 
+import Util.*;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -56,9 +58,18 @@ public class Frame {
                 }
             }
             inputStream.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+//        if (showLinks) {
+//            ArrayList<HyperVideoLink> hyperVideoLinks = new HyperVideo("", videoName).getLinksByFrame(i);
+//            for (HyperVideoLink hyperLink: hyperVideoLinks) {
+//                viewUtil.hyperLink.get_selectedPixels();
+//            }
+//        }
+
 
     }
     public int getId(){

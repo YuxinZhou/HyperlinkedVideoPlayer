@@ -147,6 +147,22 @@ public class AuthView {
         jFrame.setVisible(true);
     }
 
+    public void movePrimaryTo(int goTo) {
+        Frame frame;
+        if (primaryVideo == null) return;
+        frame = new Frame(primaryVideo, goTo);
+        imageUtil.copyImage(frame.getImg(), img1);
+        jSlider.setValue(goTo);
+    }
+
+    public void moveSecondaryTo(int goTo) {
+        Frame frame;
+        if (secondaryVideo == null) return;
+        frame = new Frame(secondaryVideo, goTo);
+        imageUtil.copyImage(frame.getImg(), img2);
+        jSlider2.setValue(goTo);
+    }
+
     private class ImportButtonListener implements ActionListener {
         private VideoType videoType; // Primary video or secondary video
 
@@ -199,18 +215,11 @@ public class AuthView {
 
         @Override
         public void stateChanged(ChangeEvent e) {
-            Frame frame;
-            switch (this.videoType) {
+            switch (videoType) {
                 case PRIMARY:
-                    if (primaryVideo == null) return;
-                    frame = new Frame(primaryVideo, jSlider.getValue());
-                    imageUtil.copyImage(frame.getImg(), img1);
-                    break;
+                    movePrimaryTo(jSlider.getValue());
                 case SECONDARY:
-                    if (secondaryVideo == null) return;
-                    frame = new Frame(secondaryVideo, jSlider2.getValue());
-                    imageUtil.copyImage(frame.getImg(), img2);
-                    break;
+                    moveSecondaryTo(jSlider.getValue());
             }
             jFrame.repaint();
         }
@@ -260,6 +269,7 @@ public class AuthView {
                 System.out.println(linkSelected + " is selected");
                 linkSelected = obj.toString();
                 //Todo: go to corresponding frame
+               // HyperVideoLink hyperVideoLink =  hyperVideo.getLinksByName(linkSelected);
             }
         }
     }
@@ -325,7 +335,7 @@ public class AuthView {
                 start = null;
                 end = null;
                 System.out.println(curObj);
-                imageUtil.drawRectangle(img1, curObj);
+                imageUtil.drawRectangle(img1, curObj, imageUtil.Red);
                 jFrame.repaint();
             }
         }
