@@ -19,7 +19,7 @@ public class HyperVideoLinkTester {
         tmp_array.add(100);
         tmp_array.add(1);
         tmp_array.add(100);
-        HyperVideoLink h_link = new HyperVideoLink("link1", 0, tmp_array, "lalala", 30);
+        HyperVideoLink h_link = new HyperVideoLink("link1", 0, tmp_array, "lalala", 30,0);
 
         JSONObject jo = h_link.returnJSON();
 

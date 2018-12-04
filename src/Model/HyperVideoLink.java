@@ -12,19 +12,23 @@ public class HyperVideoLink {
     private ArrayList<Integer> _selectedPixels;
     private String _subVideoName;
     private int _subVideoFrameNumber;
+    private int _startFrameNumber;
 
     static private final String nameKey = "Name";
     static private final String frameNumberKey = "FrameNumber";
     static private final String selectedPixelsKey = "SelectedPixels";
     static private final String subVideoNameKey = "SubVideoName";
     static private final String subVideoFrameNumberKey = "SubVideoFrameNumber";
+    static private final String startFrameNumberKey = "startFrameNumber";
 
-    public HyperVideoLink(String name, int frameNumber, ArrayList<Integer> selectedPixels, String subVideoName, int subVideoFrameNumber) {
+    public HyperVideoLink(String name, int frameNumber, ArrayList<Integer> selectedPixels, String subVideoName,
+                          int subVideoFrameNumber, int startFrameNumber) {
         _name = name;
         _frameNumber = frameNumber;
         _selectedPixels = selectedPixels;
         _subVideoName = subVideoName;
         _subVideoFrameNumber = subVideoFrameNumber;
+        _startFrameNumber = startFrameNumber;
     }
 
     public HyperVideoLink(JSONObject jo) {
@@ -37,10 +41,15 @@ public class HyperVideoLink {
         }
         _subVideoName = (String) jo.get(subVideoNameKey);
         _subVideoFrameNumber = ((Long) jo.get(subVideoFrameNumberKey)).intValue();
+        _startFrameNumber = ((Long) jo.get(startFrameNumberKey)).intValue();
     }
 
     public String get_name() {
         return _name;
+    }
+
+    public void set_name(String name){
+        this._name = name;
     }
 
     public int get_frameNumber() {
@@ -59,6 +68,8 @@ public class HyperVideoLink {
         return _subVideoFrameNumber;
     }
 
+    public int get_startFrameNumber() { return _startFrameNumber; }
+
     public JSONObject returnJSON() {
         JSONObject jo = new JSONObject();
         jo.put(nameKey, _name);
@@ -66,6 +77,7 @@ public class HyperVideoLink {
         jo.put(selectedPixelsKey, _selectedPixels);
         jo.put(subVideoNameKey, _subVideoName);
         jo.put(subVideoFrameNumberKey, _subVideoFrameNumber);
+        jo.put(startFrameNumberKey,_startFrameNumber);
         return jo;
     }
 }

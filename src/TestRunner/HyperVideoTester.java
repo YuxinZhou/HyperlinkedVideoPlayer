@@ -26,7 +26,7 @@ public class HyperVideoTester {
         tmp_set1.add(10);
         tmp_set1.add(20);
 
-        h_video.addHyperLink("link1", 0, tmp_set1, "lalala", 10);
+        h_video.addHyperLink("link1", 0, tmp_set1, "lalala", 10, 0);
 
         ArrayList<Integer> tmp_set2 = new ArrayList<Integer>();
         tmp_set2.add(101);
@@ -34,7 +34,7 @@ public class HyperVideoTester {
         tmp_set2.add(110);
         tmp_set2.add(120);
 
-        h_video.addHyperLink("link2", 0, tmp_set2, "lala", 10);
+        h_video.addHyperLink("link2", 0, tmp_set2, "lala", 10, 0);
 
         ArrayList<Integer> tmp_set3 = new ArrayList<Integer>();
         tmp_set3.add(201);
@@ -42,11 +42,11 @@ public class HyperVideoTester {
         tmp_set3.add(210);
         tmp_set3.add(220);
 
-        h_video.addHyperLink("link1", 10, tmp_set3, "lalala", 50);
+        h_video.addHyperLink("link1", 10, tmp_set3, "lalala", 50, 0);
 
         fileHelper.saveHyperVideoToFile(h_video, "first_save.JSON");
         HyperVideo h2_video = fileHelper.readHyperVideoFromFile("first_save.JSON");
-        h2_video.addHyperLink("link1", 100, tmp_set3, "lalala", 50);
+        h2_video.addHyperLink("link1", 100, tmp_set3, "lalala", 50, 0);
         fileHelper.saveHyperVideoToFile(h2_video, "second_save.JSON");
     }
     public static void main(String[] args) throws IOException, ParseException {

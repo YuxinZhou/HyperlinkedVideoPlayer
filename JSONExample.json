@@ -1,1 +1,88 @@
-{"VideoName":"new video","LinksPerFrame":{"0":[{"SelectedPixels":[1,2,10,20,101,102,110,120,201,202,210,220],"SubVideoFrameNumber":10,"FrameNumber":0,"SubVideoName":"lalala","Name":"link1"},{"SelectedPixels":[],"SubVideoFrameNumber":10,"FrameNumber":0,"SubVideoName":"lala","Name":"link2"}],"10":[{"SelectedPixels":[],"SubVideoFrameNumber":50,"FrameNumber":10,"SubVideoName":"lalala","Name":"link1"}]},"MainVideoName":"USCOne","SubVideoNames":["lala","lalala"],"LinksPerName":{"link1":[{"SelectedPixels":[1,2,10,20,101,102,110,120,201,202,210,220],"SubVideoFrameNumber":10,"FrameNumber":0,"SubVideoName":"lalala","Name":"link1"},{"SelectedPixels":[],"SubVideoFrameNumber":50,"FrameNumber":10,"SubVideoName":"lalala","Name":"link1"}],"link2":[{"SelectedPixels":[],"SubVideoFrameNumber":10,"FrameNumber":0,"SubVideoName":"lala","Name":"link2"}]}}
+{
+  "VideoName": "new video",
+  "LinksPerFrame": {
+    "0": [
+      {
+        "SelectedPixels": [
+          1,
+          2,
+          10,
+          20,
+          101,
+          102,
+          110,
+          120,
+          201,
+          202,
+          210,
+          220
+        ],
+        "SubVideoFrameNumber": 10,
+        "FrameNumber": 0,
+        "SubVideoName": "lalala",
+        "Name": "link1"
+      },
+      {
+        "SelectedPixels": [],
+        "SubVideoFrameNumber": 10,
+        "FrameNumber": 0,
+        "SubVideoName": "lala",
+        "Name": "link2"
+      }
+    ],
+    "10": [
+      {
+        "SelectedPixels": [],
+        "SubVideoFrameNumber": 50,
+        "FrameNumber": 10,
+        "SubVideoName": "lalala",
+        "Name": "link1"
+      }
+    ]
+  },
+  "MainVideoName": "USCOne",
+  "SubVideoNames": [
+    "lala",
+    "lalala"
+  ],
+  "LinksPerName": {
+    "link1": [
+      {
+        "SelectedPixels": [
+          1,
+          2,
+          10,
+          20,
+          101,
+          102,
+          110,
+          120,
+          201,
+          202,
+          210,
+          220
+        ],
+        "SubVideoFrameNumber": 10,
+        "FrameNumber": 0,
+        "SubVideoName": "lalala",
+        "Name": "link1"
+      },
+      {
+        "SelectedPixels": [],
+        "SubVideoFrameNumber": 50,
+        "FrameNumber": 10,
+        "SubVideoName": "lalala",
+        "Name": "link1"
+      }
+    ],
+    "link2": [
+      {
+        "SelectedPixels": [],
+        "SubVideoFrameNumber": 10,
+        "FrameNumber": 0,
+        "SubVideoName": "lala",
+        "Name": "link2"
+      }
+    ]
+  }
+}

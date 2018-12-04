@@ -17,8 +17,10 @@ public class Frame {
 
     private int id;
     private BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    private String videoName;
 
     private void loadImg(String videoName, int i) {
+        this.videoName = videoName;
         String filename = String.valueOf(i);
         if (i >= 0 && i < 10) {
             filename = "000" + String.valueOf(i);
@@ -84,5 +86,9 @@ public class Frame {
 
     public BufferedImage getImg() {
         return img;
+    }
+
+    public String getVideoName() {
+        return videoName;
     }
 }

@@ -11,8 +11,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
+
+import javax.swing.text.MaskFormatter;
 import java.util.Vector;
 
 public class AuthView {
@@ -35,6 +35,8 @@ public class AuthView {
     private JLabel lbIm2;
     private String linkSelected;
     private Rectangle curObj;
+    private JFormattedTextField inputField1;
+    private JFormattedTextField inputField2;
 
 
     private enum VideoType {
@@ -59,7 +61,7 @@ public class AuthView {
         jList.addMouseListener(new JListListener());
 
         jScrollPane = new JScrollPane();
-        jScrollPane.setPreferredSize(new java.awt.Dimension(200, 80));
+        jScrollPane.setPreferredSize(new Dimension(200, 80));
         jScrollPane.getViewport().setView(jList);
 
         JButton saveButton = new JButton("Save File");
@@ -70,18 +72,33 @@ public class AuthView {
 
         // Left Video
         lbIm1 = new JLabel(new ImageIcon(img1));
-        lbIm1.setPreferredSize(new java.awt.Dimension(width + 20, height + 20));
+        lbIm1.setPreferredSize(new Dimension(width + 20, height + 20));
         jSlider = new JSlider(1, 9000, 1);
         jSlider.setPaintTicks(true);
         jSlider.addChangeListener(new SlideListener(VideoType.PRIMARY));
+        try {
+            MaskFormatter formatter = new MaskFormatter("####");
+            inputField1 = new JFormattedTextField(formatter);
+            inputField1.addActionListener(new InputFieldListener(VideoType.PRIMARY));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         // Right Video
         lbIm2 = new JLabel(new ImageIcon(img2));
-        lbIm2.setPreferredSize(new java.awt.Dimension(width + 20, height + 20));
+        lbIm2.setPreferredSize(new Dimension(width + 20, height + 20));
         jSlider2 = new JSlider(1, 9000, 1);
         jSlider2.setPaintTicks(true);
         jSlider2.addChangeListener(new SlideListener(VideoType.SECONDARY));
+        try {
+            MaskFormatter formatter = new MaskFormatter("####");
+            inputField2 = new JFormattedTextField(formatter);
+            inputField2.addActionListener(new InputFieldListener(VideoType.SECONDARY));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
+        // JFrame
         jFrame = new JFrame();
         GridBagLayout gLayout = new GridBagLayout();
         jFrame.getContentPane().setLayout(gLayout);
@@ -140,12 +157,25 @@ public class AuthView {
 
         c.gridx = 0;
         c.gridy = 9;
+        c.gridwidth = 1;
         jFrame.getContentPane().add(jSlider, c);
+        jSlider.setPreferredSize(new Dimension(250, 20));
 
+        c.gridx = 1;
+        c.gridy = 9;
+        jFrame.getContentPane().add(inputField1, c);
+        //inputField1.setPreferredSize(new Dimension(50, 20));
 
         c.gridx = 2;
         c.gridy = 9;
         jFrame.getContentPane().add(jSlider2, c);
+        jSlider2.setPreferredSize(new Dimension(280, 20));
+
+        c.gridx = 3;
+        c.gridy = 9;
+        c.gridwidth = GridBagConstraints.REMAINDER;
+        jFrame.getContentPane().add(inputField2, c);
+        // inputField2.setPreferredSize(new Dimension(20, 20));
 
         jFrame.pack();
         jFrame.setVisible(true);
@@ -153,16 +183,24 @@ public class AuthView {
 
     public void movePrimaryTo(int goTo) {
         if (primaryVideo == null) return;
+        if (goTo < 1) goTo = 1;
+        if (goTo > 9000) goTo = 9000;
+
         frame1 = new Frame(primaryVideo, goTo, hyperVideo.getLinksByFrame(goTo));
         imageUtil.copyImage(frame1.getImg(), img1);
         jSlider.setValue(goTo);
+        inputField1.setValue(goTo);
     }
 
     public void moveSecondaryTo(int goTo) {
         if (secondaryVideo == null) return;
+        if (goTo < 1) goTo = 1;
+        if (goTo > 9000) goTo = 9000;
+
         frame2 = new Frame(secondaryVideo, goTo);
         imageUtil.copyImage(frame2.getImg(), img2);
         jSlider2.setValue(goTo);
+        inputField2.setValue(goTo);
     }
 
     private class ImportButtonListener implements ActionListener {
@@ -186,7 +224,6 @@ public class AuthView {
             if (path != null) {
                 switch (this.videoType) {
                     case PRIMARY:
-                        jSlider.setValue(0);
                         primaryVideo = path;
                         String filePath = "json/" + primaryVideo + ".json";
 
@@ -204,14 +241,11 @@ public class AuthView {
                         jList.setListData(links);
 
                         // refresh frame
-                        frame1 = new Frame(path, 1, hyperVideo.getLinksByFrame(1));
-                        imageUtil.copyImage(frame1.getImg(), img1);
+                        movePrimaryTo(1);
                         break;
                     case SECONDARY:
-                        frame2 = new Frame(path, 1);
-                        imageUtil.copyImage(frame2.getImg(), img2);
-                        jSlider2.setValue(0);
                         secondaryVideo = path;
+                        moveSecondaryTo(1);
                         break;
                 }
                 jFrame.repaint();
@@ -240,13 +274,37 @@ public class AuthView {
         }
     }
 
+
+    private class InputFieldListener implements ActionListener {
+        private VideoType videoType;
+
+        public InputFieldListener(VideoType videoType) {
+            this.videoType = videoType;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            try {
+                switch (videoType) {
+                    case PRIMARY:
+                        movePrimaryTo(Integer.valueOf(inputField1.getValue().toString()));
+                        break;
+                    case SECONDARY:
+                        moveSecondaryTo(Integer.valueOf(inputField2.getValue().toString()));
+                        break;
+                }
+                jFrame.repaint();
+            } catch (Exception ex) {
+            }
+        }
+    }
+
     private class NewLinkListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
             String newLink = JOptionPane.showInputDialog("Please enter the link name");
-            if (newLink == null || newLink.equals("")) {
+            if (newLink == null || newLink.equals(""))
                 return;
-            }
             // Can not have same name!
             while (links.contains(newLink)) {
                 JOptionPane.showMessageDialog(null, "Name already exists.", "Error!", JOptionPane.ERROR_MESSAGE);
@@ -268,7 +326,12 @@ public class AuthView {
             Object obj = myList.getModel().getElementAt(index);
 
             if (e.getClickCount() == 2) { // double clicked -> edit link
+                String oldLink = obj.toString();
                 String newLink = JOptionPane.showInputDialog("Please enter the link name", obj.toString());
+                while (links.contains(newLink)) {
+                    JOptionPane.showMessageDialog(null, "Name already exists.", "Error!", JOptionPane.ERROR_MESSAGE);
+                    newLink = JOptionPane.showInputDialog("Please enter the link name", newLink);
+                }
                 if (newLink == null) { // canceled
                     return;
                 } else if (newLink.equals("")) { // deleted
@@ -276,6 +339,7 @@ public class AuthView {
                 } else { // updated
                     links.remove(index);
                     links.add(index, newLink);
+                    hyperVideo.renameHyperLinks(oldLink, newLink);
                 }
                 jList.setListData(links);
             }
@@ -283,9 +347,15 @@ public class AuthView {
             if (e.getClickCount() == 1) {
                 System.out.println(linkSelected + " is selected");
                 linkSelected = obj.toString();
-                //Todo: go to corresponding frame
-                hyperVideo.getLinksByName(linkSelected);
-
+                int firstFrame = hyperVideo.getFirstFrameByName(linkSelected);
+                Frame linkedFrame = hyperVideo.getLinkedFrameByName(linkSelected);
+                System.out.println(firstFrame);
+                System.out.println(linkedFrame);
+                if (firstFrame == -1 || linkedFrame == null)
+                    return;
+                movePrimaryTo(firstFrame);
+                secondaryVideo = linkedFrame.getVideoName();
+                moveSecondaryTo(linkedFrame.getId());
             }
         }
     }
@@ -293,17 +363,19 @@ public class AuthView {
     private class ConnectFileListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (primaryVideo == null || linkSelected == null) {
+            if (primaryVideo == null || jList.getSelectedIndex() == -1) {
                 JOptionPane.showMessageDialog(null, "Please select a link from list", "Error!", JOptionPane.ERROR_MESSAGE);
             } else if (curObj == null) {
                 JOptionPane.showMessageDialog(null, "Please select an object", "Error!", JOptionPane.ERROR_MESSAGE);
             } else if (secondaryVideo == null) {
                 JOptionPane.showMessageDialog(null, "Please choose secondary video", "Error!", JOptionPane.ERROR_MESSAGE);
             } else {
-                hyperVideo.addHyperLink(linkSelected, jSlider.getValue(),
+                linkSelected = jList.getSelectedValue().toString();
+                hyperVideo.newHyperLink(linkSelected, jSlider.getValue(),
                         viewUtil.rectToArray(curObj), secondaryVideo, jSlider2.getValue());
                 JOptionPane.showMessageDialog(null, "New hyperlink (" + linkSelected + ") created!");
-                System.out.println(hyperVideo.returnJSON());
+                movePrimaryTo(jSlider.getValue());  // Refresh
+                jFrame.repaint();
             }
         }
     }
@@ -312,9 +384,8 @@ public class AuthView {
         @Override
         public void actionPerformed(ActionEvent e) {
             String filePath = "json/" + primaryVideo + ".json";
-            if (hyperVideo == null) {
+            if (hyperVideo == null)
                 return;
-            }
             HyperVideoFileHelper.saveHyperVideoToFile(hyperVideo, filePath);
             JOptionPane.showMessageDialog(null, "File saved!");
         }
@@ -334,7 +405,6 @@ public class AuthView {
 
             if (primaryVideo != null && bound.contains(p)) {
                 jFrame.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
-
             } else {
                 jFrame.setCursor(new Cursor(Cursor.MOVE_CURSOR));
             }
