@@ -1,6 +1,8 @@
 package Model;
 
 import Util.*;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.io.File;
@@ -16,9 +18,7 @@ public class Frame {
     private int id;
     private BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
-    public Frame(String videoName, int i) {
-        this.id = i;
-
+    private void loadImg(String videoName, int i) {
         String filename = String.valueOf(i);
         if (i >= 0 && i < 10) {
             filename = "000" + String.valueOf(i);
@@ -62,17 +62,23 @@ public class Frame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        if (showLinks) {
-//            ArrayList<HyperVideoLink> hyperVideoLinks = new HyperVideo("", videoName).getLinksByFrame(i);
-//            for (HyperVideoLink hyperLink: hyperVideoLinks) {
-//                viewUtil.hyperLink.get_selectedPixels();
-//            }
-//        }
-
-
     }
-    public int getId(){
+
+    public Frame(String videoName, int i) {
+        this.id = i;
+        loadImg(videoName, i);
+    }
+
+    public Frame(String videoName, int i, ArrayList<HyperVideoLink> hyperVideoLinks) {
+        this.id = i;
+        loadImg(videoName, i);
+        for (HyperVideoLink hyperLink : hyperVideoLinks) {
+            Rectangle rect = viewUtil.arrayToRect(hyperLink.get_selectedPixels());
+            imageUtil.drawRectangle(img, rect, imageUtil.White);
+        }
+    }
+
+    public int getId() {
         return id;
     }
 

@@ -14,7 +14,7 @@ public class HyperVideoFileHelper {
 
     }
 
-    public void saveToFile(String content, String filePath) {
+    private static void saveToFile(String content, String filePath) {
         try {
             PrintWriter pw = new PrintWriter(filePath);
             pw.write(content);
@@ -26,11 +26,11 @@ public class HyperVideoFileHelper {
         }
     }
 
-    public void saveHyperVideoToFile(HyperVideo h_video, String filePath) {
+    public static void saveHyperVideoToFile(HyperVideo h_video, String filePath) {
         saveToFile(h_video.returnJSON().toJSONString(), filePath);
     }
 
-    public HyperVideo readHyperVideoFromFile(String filePath) {
+    public static HyperVideo readHyperVideoFromFile(String filePath) {
         try {
             JSONParser parser = new JSONParser();
             JSONObject tmp_jo = (JSONObject) parser.parse(new FileReader(filePath));

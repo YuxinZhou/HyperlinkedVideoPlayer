@@ -10,6 +10,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
@@ -19,9 +20,11 @@ public class AuthView {
     private static final int height = 288;
     private BufferedImage img1 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
     private BufferedImage img2 = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+    private Frame frame1;
+    private Frame frame2;
     private String primaryVideo;
-    private HyperVideo hyperVideo;
     private String secondaryVideo;
+    private HyperVideo hyperVideo;
     private JList jList;
     private Vector<String> links = new Vector<>();
     private JScrollPane jScrollPane;
@@ -62,6 +65,7 @@ public class AuthView {
         JButton saveButton = new JButton("Save File");
         JButton connectButton = new JButton("Connect Video");
         connectButton.addActionListener(new ConnectFileListener());
+        saveButton.addActionListener(new SaveFileListener());
 
 
         // Left Video
@@ -148,18 +152,16 @@ public class AuthView {
     }
 
     public void movePrimaryTo(int goTo) {
-        Frame frame;
         if (primaryVideo == null) return;
-        frame = new Frame(primaryVideo, goTo);
-        imageUtil.copyImage(frame.getImg(), img1);
+        frame1 = new Frame(primaryVideo, goTo, hyperVideo.getLinksByFrame(goTo));
+        imageUtil.copyImage(frame1.getImg(), img1);
         jSlider.setValue(goTo);
     }
 
     public void moveSecondaryTo(int goTo) {
-        Frame frame;
         if (secondaryVideo == null) return;
-        frame = new Frame(secondaryVideo, goTo);
-        imageUtil.copyImage(frame.getImg(), img2);
+        frame2 = new Frame(secondaryVideo, goTo);
+        imageUtil.copyImage(frame2.getImg(), img2);
         jSlider2.setValue(goTo);
     }
 
@@ -182,21 +184,32 @@ public class AuthView {
             }
             // todo: check path
             if (path != null) {
-                Frame frame = new Frame(path, 1);
                 switch (this.videoType) {
                     case PRIMARY:
-                        imageUtil.copyImage(frame.getImg(), img1);
                         jSlider.setValue(0);
                         primaryVideo = path;
-                        hyperVideo = new HyperVideo("", primaryVideo);
+                        String filePath = "json/" + primaryVideo + ".json";
+
+                        if (new File(filePath).isFile()) {
+                            hyperVideo = HyperVideoFileHelper.readHyperVideoFromFile(filePath);
+                        } else {
+                            hyperVideo = new HyperVideo("", primaryVideo);
+                        }
+
+                        // refresh link list
                         links.clear();
                         for (String l : hyperVideo.getAllLinkNames()) {
                             links.add(l);
                         }
                         jList.setListData(links);
+
+                        // refresh frame
+                        frame1 = new Frame(path, 1, hyperVideo.getLinksByFrame(1));
+                        imageUtil.copyImage(frame1.getImg(), img1);
                         break;
                     case SECONDARY:
-                        imageUtil.copyImage(frame.getImg(), img2);
+                        frame2 = new Frame(path, 1);
+                        imageUtil.copyImage(frame2.getImg(), img2);
                         jSlider2.setValue(0);
                         secondaryVideo = path;
                         break;
@@ -218,8 +231,10 @@ public class AuthView {
             switch (videoType) {
                 case PRIMARY:
                     movePrimaryTo(jSlider.getValue());
+                    break;
                 case SECONDARY:
-                    moveSecondaryTo(jSlider.getValue());
+                    moveSecondaryTo(jSlider2.getValue());
+                    break;
             }
             jFrame.repaint();
         }
@@ -269,7 +284,8 @@ public class AuthView {
                 System.out.println(linkSelected + " is selected");
                 linkSelected = obj.toString();
                 //Todo: go to corresponding frame
-               // HyperVideoLink hyperVideoLink =  hyperVideo.getLinksByName(linkSelected);
+                hyperVideo.getLinksByName(linkSelected);
+
             }
         }
     }
@@ -289,6 +305,18 @@ public class AuthView {
                 JOptionPane.showMessageDialog(null, "New hyperlink (" + linkSelected + ") created!");
                 System.out.println(hyperVideo.returnJSON());
             }
+        }
+    }
+
+    private class SaveFileListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            String filePath = "json/" + primaryVideo + ".json";
+            if (hyperVideo == null) {
+                return;
+            }
+            HyperVideoFileHelper.saveHyperVideoToFile(hyperVideo, filePath);
+            JOptionPane.showMessageDialog(null, "File saved!");
         }
     }
 
@@ -317,8 +345,7 @@ public class AuthView {
             Rectangle bound = new Rectangle(lbIm1.getBounds().x + 10, lbIm1.getBounds().y + 10, width, height);
             if (primaryVideo != null && bound.contains(e.getPoint())) {  // Draw start
                 start = e.getPoint();
-                Frame frame = new Frame(primaryVideo, jSlider.getValue());
-                imageUtil.copyImage(frame.getImg(), img1);
+                imageUtil.copyImage(frame1.getImg(), img1);
                 jFrame.repaint();
             }
 
