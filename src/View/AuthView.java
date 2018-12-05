@@ -345,7 +345,6 @@ public class AuthView {
             }
 
             if (e.getClickCount() == 1) {
-                System.out.println(linkSelected + " is selected");
                 linkSelected = obj.toString();
                 int firstFrame = hyperVideo.getFirstFrameByName(linkSelected);
                 Frame linkedFrame = hyperVideo.getLinkedFrameByName(linkSelected);
