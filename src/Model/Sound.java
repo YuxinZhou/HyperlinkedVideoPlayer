@@ -37,6 +37,8 @@ public class Sound {
             throw new RuntimeException("Sound: Line Unavailable Exception Error: " + e);
         }
 
+        frame = 0;
+
         // play, stop, loop the sound clip
     }
 
@@ -67,6 +69,7 @@ public class Sound {
         }
 
         frame = startFrame;
+        System.out.println("clip frame set: " + frame);
         // play, stop, loop the sound clip
     }
 

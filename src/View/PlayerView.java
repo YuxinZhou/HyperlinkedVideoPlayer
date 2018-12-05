@@ -1,16 +1,16 @@
 package View;
 
-import Model.HyperVideo;
-import Model.HyperVideoFileHelper;
-import Model.Sound;
-import Model.Video;
+import Model.*;
 import Util.imageUtil;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 public class PlayerView implements ActionListener {
 
@@ -26,6 +26,7 @@ public class PlayerView implements ActionListener {
     private Video video;
     private Sound sound;
     private HyperVideo hyperVideo;
+    private JLabel lbIm1;
 
 
     @Override
@@ -47,7 +48,8 @@ public class PlayerView implements ActionListener {
         stopButton.setEnabled(false);
 
         imageUtil.copyImage(video.getNextFrame(), img);
-        JLabel lbIm1 = new JLabel(new ImageIcon(img));
+        lbIm1 = new JLabel(new ImageIcon(img));
+        lbIm1.addMouseListener(new MouseListener());
 
         sound.loadSound("data/USCOne/USCOne.wav");
 
@@ -80,16 +82,34 @@ public class PlayerView implements ActionListener {
         c.gridy = 1;
         jFrame.getContentPane().add(controlPane, c);
 
-
-
         jFrame.pack();
         jFrame.setVisible(true);
+    }
+
+    private void StopVideo() {
+        stopButton.setEnabled(false);
+        playButton.setEnabled(true);
+        sound.stop();
+        video.stop();
     }
 
     private void LoadNewVideo(String filePath) {
         hyperVideo = HyperVideoFileHelper.readHyperVideoFromFile(filePath);
         video = new Video(hyperVideo);
         sound.loadSound("data/" + hyperVideo.get_mainVideoName() + "/" + hyperVideo.get_mainVideoName() + ".wav");
+    }
+
+    private void LoadSubVideo(HyperVideoLink hyperVideoLink) {
+        StopVideo();
+
+        video = new Video(hyperVideoLink.get_subVideoName(), hyperVideoLink.get_subVideoFrameNumber());
+        sound.loadSound("data/" + hyperVideoLink.get_subVideoName() + "/" + hyperVideoLink.get_subVideoName() + ".wav", hyperVideoLink.get_subVideoFrameNumber());
+
+
+//        stopButton.setEnabled(true);
+//        playButton.setEnabled(false);
+//        sound.resume();
+//        video.resume();
     }
 
     private class PlayButtonListener implements ActionListener{
@@ -130,8 +150,24 @@ public class PlayerView implements ActionListener {
 
             fileChooser.setDialogTitle("Please choose the hyper video json file");
             if (JFileChooser.APPROVE_OPTION == fileChooser.showOpenDialog(null)) {
+                StopVideo();
                 LoadNewVideo(fileChooser.getSelectedFile().getAbsolutePath());
             }
+        }
+    }
+
+    private class MouseListener extends MouseAdapter {
+        public void mousePressed(MouseEvent e) {
+            int in_image_pos_x = e.getPoint().x - (lbIm1.getBounds().width - width)/2;
+            int in_image_pos_y = e.getPoint().y - (lbIm1.getBounds().height - height)/2 ;
+            ArrayList<HyperVideoLink> linksThisFrame = hyperVideo.getLinksByFrame(video.getCurFramePos());
+            linksThisFrame.forEach((link) -> {
+                ArrayList<Integer> pixelsSelected = link.get_selectedPixels();
+                if((in_image_pos_x >= pixelsSelected.get(0)) && (in_image_pos_y >= pixelsSelected.get(1)) && (in_image_pos_x <= pixelsSelected.get(2)) && (in_image_pos_y <= pixelsSelected.get(3))) {
+                    System.out.println("click in link");
+                    LoadSubVideo(link);
+                }
+            });
         }
     }
 

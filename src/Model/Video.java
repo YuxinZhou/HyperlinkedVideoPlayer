@@ -16,45 +16,77 @@ public class Video {
     private long startTime = System.currentTimeMillis();
 
     private LinkedBlockingQueue<Frame> frames = new LinkedBlockingQueue<>(1000);
+    private Thread playingThread;
 
 
     public Video(String videoName) {
-        new Thread(() -> {
+        playingThread = new Thread(() -> {
             for (int i = 1; i <= 9000; i++)
             {
                 try {
                     frames.put(new Frame(videoName, i));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    frames.clear();
                 }
             }
-        }).start();
+        });
+        playingThread.start();
         try {
             curFrame = frames.take().getImg();
         } catch (InterruptedException e) {
             e.printStackTrace();
+            frames.clear();
+        }
+    }
+
+    public Video(String videoName, int startFrame) {
+        playingThread = new Thread(() -> {
+            for (int i = startFrame; i <= 9000; i++)
+            {
+                try {
+                    frames.put(new Frame(videoName, i));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    frames.clear();
+                }
+            }
+        });
+        startFramePos = startFrame;
+        playingThread.start();
+        try {
+            curFrame = frames.take().getImg();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            frames.clear();
         }
     }
 
     public Video (HyperVideo hyperVideo) {
         String videoName = hyperVideo.get_mainVideoName();
-        new Thread(() -> {
+        playingThread = new Thread(() -> {
             for (int i = 1; i <= 9000; i++)
             {
                 try {
                     frames.put(new Frame(videoName, i, hyperVideo.getLinksByFrame(i)));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
+                    frames.clear();
                 }
             }
-        }).start();
+        });
+        playingThread.start();
         try {
             curFrame = frames.take().getImg();
         } catch (InterruptedException e) {
             e.printStackTrace();
+            frames.clear();
         }
     }
 
+    public int getCurFramePos() {
+        return curFramePos;
+    }
 
     public void resume() {
         startTime = System.currentTimeMillis();
@@ -64,6 +96,10 @@ public class Video {
 
     public void pause() {
         started = false;
+    }
+
+    public void stop() {
+        playingThread.interrupt();
     }
 
     public BufferedImage getNextFrame() {
