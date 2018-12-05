@@ -1,5 +1,7 @@
 package Model;
 
+import Util.objTracking;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
@@ -74,7 +76,15 @@ public class HyperVideo {
         HyperVideoLink tmp_link = new HyperVideoLink(name, frameNumber, selectedPixels, subVideoName,
                 subVideoFrameNumber, startFrame);
 
+        addHyperLink(tmp_link);
+    }
+
+    public void addHyperLink(HyperVideoLink tmp_link) {
         // update in links per frame
+        int frameNumber = tmp_link.get_frameNumber();
+        String name = tmp_link.get_name();
+        String subVideoName = tmp_link.get_subVideoName();
+
         if (!_linksPerFrame.containsKey(frameNumber)) {
             _linksPerFrame.put(frameNumber, new ArrayList<>());
         }
@@ -94,6 +104,7 @@ public class HyperVideo {
 
         // update sub videos set
         _subVideoNames.add(subVideoName);
+
     }
 
 
@@ -109,7 +120,11 @@ public class HyperVideo {
                 links.removeIf((link) -> (link.get_name().equals(name)));
             });
         }
-        this.addHyperLink(name, startFrame, selectedPixels, subVideoName, subVideoFrameNumber, startFrame);
+        HyperVideoLink new_link = new HyperVideoLink(name, startFrame, selectedPixels, subVideoName, subVideoFrameNumber, startFrame);
+        this.addHyperLink(new_link);
+        for (HyperVideoLink link : objTracking.tracking(new_link, _mainVideoName)) {
+            this.addHyperLink(link);
+        }
     }
 
 

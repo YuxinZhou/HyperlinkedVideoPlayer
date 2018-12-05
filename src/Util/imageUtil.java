@@ -1,7 +1,13 @@
 package Util;
 
+import Model.Frame;
+
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class imageUtil {
 
@@ -37,5 +43,26 @@ public class imageUtil {
             img.setRGB(x2, j, color.getRGB());
         }
 
+
     }
+
+    public static byte getLuminance(int color) {
+        byte r = (byte) ((color >> 16) & 0xff);
+        byte g = (byte) ((color >> 8) & 0xff);
+        byte b = (byte) ((color) & 0xff);
+        return (byte) (0.2126 * r + 0.7152 * g + 0.0722 * b);
+    }
+
+
+
+    public static void main(String[] args) {
+
+//        JFrame jFrame = new JFrame();
+//        jFrame.getContentPane().add(new JLabel(new ImageIcon(showGrayImg(target))));
+//
+//        jFrame.pack();
+//        jFrame.setVisible(true);
+    }
+
+
 }
