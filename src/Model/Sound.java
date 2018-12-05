@@ -40,6 +40,36 @@ public class Sound {
         // play, stop, loop the sound clip
     }
 
+    public void loadSound(String soundName, int startFrame) {
+        // specify the sound to play
+        // (assuming the sound can be played by the audio system)
+        // from a wave File
+        FileInputStream waveStream;
+        try {
+            waveStream = new FileInputStream(soundName);
+            InputStream bufferedIn = new BufferedInputStream(waveStream);
+            AudioInputStream sound =  AudioSystem.getAudioInputStream(bufferedIn);
+            // load the sound into memory (a Clip)
+            clip = AudioSystem.getClip();
+            clip.open(sound);
+        }
+        catch (UnsupportedAudioFileException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Sound: Unsupported Audio File: " + e);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Sound: Input/Output Error: " + e);
+        }
+        catch (LineUnavailableException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Sound: Line Unavailable Exception Error: " + e);
+        }
+
+        frame = startFrame;
+        // play, stop, loop the sound clip
+    }
+
     public void play(){
         clip.setFramePosition(0);  // Must always rewind!
         clip.start();

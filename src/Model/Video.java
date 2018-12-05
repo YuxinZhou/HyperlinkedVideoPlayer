@@ -1,6 +1,8 @@
 package Model;
 
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -22,6 +24,25 @@ public class Video {
             {
                 try {
                     frames.put(new Frame(videoName, i));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        try {
+            curFrame = frames.take().getImg();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public Video (HyperVideo hyperVideo) {
+        String videoName = hyperVideo.get_mainVideoName();
+        new Thread(() -> {
+            for (int i = 1; i <= 9000; i++)
+            {
+                try {
+                    frames.put(new Frame(videoName, i, hyperVideo.getLinksByFrame(i)));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
