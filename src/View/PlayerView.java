@@ -31,7 +31,7 @@ public class PlayerView implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        BufferedImage frame = video.getNextFrame();
+        BufferedImage frame = video.getNextFrame(sound.getFramePosition());
         if (frame != null) {
             imageUtil.copyImage(frame, img);
             jFrame.repaint();
@@ -42,16 +42,16 @@ public class PlayerView implements ActionListener {
         img = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         jFrame = new JFrame();
         controlPane = new JPanel();
-        video = new Video("USCOne");
+        video = new Video("AIFilmTwo");
         sound = new Sound();
 
         stopButton.setEnabled(false);
 
-        imageUtil.copyImage(video.getNextFrame(), img);
+        imageUtil.copyImage(video.getNextFrame(0), img);
         lbIm1 = new JLabel(new ImageIcon(img));
         lbIm1.addMouseListener(new MouseListener());
 
-        sound.loadSound("data/USCOne/USCOne.wav");
+        sound.loadSound("data/AIFilmTwo/AIFilmTwo.wav");
 
         // Define buttons' function
         playButton.addActionListener(new PlayButtonListener());
@@ -90,7 +90,6 @@ public class PlayerView implements ActionListener {
         stopButton.setEnabled(false);
         playButton.setEnabled(true);
         sound.stop();
-        video.stop();
     }
 
     private void LoadNewVideo(String filePath) {
@@ -102,7 +101,7 @@ public class PlayerView implements ActionListener {
     private void LoadSubVideo(HyperVideoLink hyperVideoLink) {
         StopVideo();
 
-        video = new Video(hyperVideoLink.get_subVideoName(), hyperVideoLink.get_subVideoFrameNumber());
+        video = new Video(hyperVideoLink.get_subVideoName());
         sound.loadSound("data/" + hyperVideoLink.get_subVideoName() + "/" + hyperVideoLink.get_subVideoName() + ".wav", hyperVideoLink.get_subVideoFrameNumber());
 
 
@@ -118,7 +117,6 @@ public class PlayerView implements ActionListener {
             playButton.setEnabled(false);
             try {
                 sound.resume();
-                video.resume();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -131,7 +129,6 @@ public class PlayerView implements ActionListener {
             playButton.setEnabled(true);
             try {
                 sound.pause();
-                video.pause();
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -143,7 +140,6 @@ public class PlayerView implements ActionListener {
             stopButton.setEnabled(false);
             playButton.setEnabled(true);
             sound.pause();
-            video.pause();
 
             JFileChooser fileChooser = new JFileChooser("json/");
             fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -160,7 +156,7 @@ public class PlayerView implements ActionListener {
         public void mousePressed(MouseEvent e) {
             int in_image_pos_x = e.getPoint().x - (lbIm1.getBounds().width - width)/2;
             int in_image_pos_y = e.getPoint().y - (lbIm1.getBounds().height - height)/2 ;
-            ArrayList<HyperVideoLink> linksThisFrame = hyperVideo.getLinksByFrame(video.getCurFramePos());
+            ArrayList<HyperVideoLink> linksThisFrame = hyperVideo.getLinksByFrame(sound.getFramePosition()/1470 + 1);
             linksThisFrame.forEach((link) -> {
                 ArrayList<Integer> pixelsSelected = link.get_selectedPixels();
                 if((in_image_pos_x >= pixelsSelected.get(0)) && (in_image_pos_y >= pixelsSelected.get(1)) && (in_image_pos_x <= pixelsSelected.get(2)) && (in_image_pos_y <= pixelsSelected.get(3))) {
