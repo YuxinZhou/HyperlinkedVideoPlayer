@@ -10,7 +10,7 @@ import java.util.Arrays;
 public class objTracking {
     private static final int width = 352;
     private static final int height = 288;
-    private static final int maxFrames = 200;
+    private static final int maxFrames = 250;
 
     public static byte[][] toGrayMatrix(BufferedImage img) {
         int width = img.getWidth();
@@ -76,7 +76,6 @@ public class objTracking {
         int maxY = bound.get(3);
 
 
-
         for (int y = minY; y <= maxY - t_height; y++) {
             for (int x = minX; x <= maxX - t_width; x++) {
                 int curDiff = 0;
@@ -109,7 +108,15 @@ public class objTracking {
         BufferedImage cur = (new Frame(videoName, frameNum)).getImg();
         int error;
         ArrayList<Integer> objBound = start.get_selectedPixels();
-        int radius = 10;
+        int radius, thredhold;
+        if ((objBound.get(2) - objBound.get(0)) > 160 || (objBound.get(3) - objBound.get(1)) > 160) {
+            radius = 5;
+            thredhold = 22;
+        }
+        else {
+            radius = 10;
+            thredhold = 14;
+        }
         while (frameNum + 1 <= 9000 && frameNum - startFrame <= maxFrames) {
             BufferedImage nxt = (new Frame(videoName, ++frameNum)).getImg();
 
@@ -124,8 +131,14 @@ public class objTracking {
             byte[][] target = getRegion(toGrayMatrix(cur), objBound);
             ArrayList<Integer> newBound = new ArrayList<>();
             error = findClosestArea(target, source, searchBox, newBound);
-            //System.out.println(frameNum + "   " + error / ((maxY - minY) * (maxX - minX)));
-            if (error / ((maxY - minY) * (maxX - minX)) > 23) break;
+
+            System.out.println(frameNum + "   " + error / ((maxY - minY) * (maxX - minX)));
+
+
+
+            //if ((maxY - minY) > 200 || (maxX - minX) > 200) radius = 3;
+
+            if (error / ((maxY - minY) * (maxX - minX)) > thredhold) break;
             res.add(new HyperVideoLink(start.get_name(), frameNum, newBound, start.get_subVideoName(),
                     start.get_subVideoFrameNumber(), start.get_startFrameNumber()));
             objBound = newBound;

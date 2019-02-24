@@ -76,13 +76,9 @@ public class AuthView {
         jSlider = new JSlider(1, 9000, 1);
         jSlider.setPaintTicks(true);
         jSlider.addChangeListener(new SlideListener(VideoType.PRIMARY));
-        try {
-            MaskFormatter formatter = new MaskFormatter("####");
-            inputField1 = new JFormattedTextField(formatter);
-            inputField1.addActionListener(new InputFieldListener(VideoType.PRIMARY));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        inputField1 = new JFormattedTextField();
+        inputField1.addActionListener(new InputFieldListener(VideoType.PRIMARY));
+
 
         // Right Video
         lbIm2 = new JLabel(new ImageIcon(img2));
@@ -90,13 +86,9 @@ public class AuthView {
         jSlider2 = new JSlider(1, 9000, 1);
         jSlider2.setPaintTicks(true);
         jSlider2.addChangeListener(new SlideListener(VideoType.SECONDARY));
-        try {
-            MaskFormatter formatter = new MaskFormatter("####");
-            inputField2 = new JFormattedTextField(formatter);
-            inputField2.addActionListener(new InputFieldListener(VideoType.SECONDARY));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        inputField2 = new JFormattedTextField();
+        inputField2.addActionListener(new InputFieldListener(VideoType.SECONDARY));
+
 
         // JFrame
         jFrame = new JFrame();
@@ -275,7 +267,7 @@ public class AuthView {
     }
 
 
-    private class InputFieldListener implements ActionListener {
+    private class InputFieldListener extends KeyAdapter implements ActionListener {
         private VideoType videoType;
 
         public InputFieldListener(VideoType videoType) {
@@ -297,6 +289,17 @@ public class AuthView {
             } catch (Exception ex) {
             }
         }
+
+//        @Override
+//        public void keyPressed(KeyEvent e) {
+//            int code = e.getKeyCode();
+//            if (!(code >= KeyEvent.VK_0 && code <= KeyEvent.VK_9)) {
+//                e.consume();
+//            }
+//            JTextField t = (JTextField) e.getSource();
+//            if (t.getCaretPosition() >= 3)
+//                e.consume();
+//        }
     }
 
     private class NewLinkListener implements ActionListener {
