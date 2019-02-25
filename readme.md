@@ -5,7 +5,10 @@ Hyper-video is a displayed video stream that contains embedded, user-clickable a
 Hyper-video is thus analogous to hypertext, where reader clicks on a word in one document to retrieve information from another document, or from another place in the same document. 
 Hyper-video combines video with a non-linear information structure, allowing a user to make choices based on the content of the video and the user's interests.
 
-2 Usage
+2 Install
+---
+
+3 Usage
 ---
 The application consists of two parts, an authoring tool to setup hyper linked videos & an interactive video player to interact with hyper-videos.
 
@@ -24,11 +27,11 @@ hyper-video player, you can
 * By clicking a hyperlink, you would stop the current video and jump to corresponding video 
 to play it from the frame defined during the setup phase
 
-![](screen/screenshot1.png)
+![](screen/screenshot2.png)
 
 -- click -->
 
-![](screen/screenshot2.png)
+![](screen/screenshot1.png)
 
 
 
